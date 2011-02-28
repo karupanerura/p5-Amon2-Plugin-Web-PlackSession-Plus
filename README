@@ -67,7 +67,8 @@ AUTHOR
     Kenta Sato <kenta.sato.1990@gmail.com>
 
 SEE ALSO
-    Amon2 Plack::Session Plack::Middleware::Session
+    Amon2 Amon2::Plugin::Web::PlackSession Plack::Session
+    Plack::Middleware::Session
 
 LICENSE
     This library is free software; you can redistribute it and/or modify it

@@ -120,6 +120,7 @@ Kenta Sato E<lt>kenta.sato.1990@gmail.comE<gt>
 =head1 SEE ALSO
 
 L<Amon2>
+L<Amon2::Plugin::Web::PlackSession>
 L<Plack::Session>
 L<Plack::Middleware::Session>
 
