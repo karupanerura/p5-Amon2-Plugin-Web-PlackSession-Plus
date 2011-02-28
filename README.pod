@@ -1,20 +1,78 @@
 =head1 NAME
 
-Amon2::Plugin::Web::PlackSession::Plus -
+Amon2::Plugin::Web::PlackSession::Plus - add more interface to Amon2::Plugin::Web::PlackSession.
 
 =head1 SYNOPSIS
 
-  use Amon2::Plugin::Web::PlackSession::Plus;
+    # MyApp.psgi
+
+    use Plack::Builder;
+    use Plack::Session::State::YouLike;
+    use Plack::Session::Store::YouLike;
+
+    builder{
+        # ...
+
+        enable 'Session',
+           state => Plack::Session::State::YouLike->new,
+           store => Plack::Session::Store::YouLike->new;
+
+        # ,,,
+    };
+
+    package MyApp::Web;
+    use parent qw/MyApp Amon2::Web/;
+
+    __PACKAGE__->load_plugins('Web::PlackSession::Plus');
+
+    package MyApp::C::Root;
+    use strict;
+    use warnings;
+
+    sub index {
+        my ($class, $c) = @_;
+        my $foo = $c->session->get('foo');
+        if ($foo) {
+              $c->session->set('foo' => $foo+1);
+        } else {
+              $c->session->set('foo' => 1);
+        }
+        my $id = $c->session->id; # It's same $c->req->session_options->{id};
+        # or $c->session->session_id; is same.
+
+        # or Sledge like interface
+        $c->session->param(foo => 1, bar => 2);
+
+        # ...
+    }
+
+    sub login{
+        if($c->auth eq 'Success!'){
+            $c->session->change_id; # It's same $c->req->session_options->{change_id}++;
+        }
+
+        # ...
+    }
+
+    sub logout{
+        $c->session->expire; # It's same $c->req->session_options->{expire}++;
+
+        # ...
+    }
 
 =head1 DESCRIPTION
 
-Amon2::Plugin::Web::PlackSession::Plus is
+Amon2::Plugin::Web::PlackSession::Plus add more interface to Amon2::Plugin::Web::PlackSession.
 
 =head1 AUTHOR
 
 Kenta Sato E<lt>kenta.sato.1990@gmail.comE<gt>
 
 =head1 SEE ALSO
+
+L<Amon2>
+L<Plack::Session>
+L<Plack::Middleware::Session>
 
 =head1 LICENSE
 
