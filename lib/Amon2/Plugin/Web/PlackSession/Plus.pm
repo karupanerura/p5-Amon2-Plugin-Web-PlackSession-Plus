@@ -11,7 +11,7 @@ sub init {
     Amon2::Util::add_method($c, session => sub {
         my $self = shift;
 
-	return $self->{__PACKAGE__} //= Plack::Session::Plus->new($self->req->env);
+	return $self->{$class} //= Plack::Session::Plus->new($self->req->env);
     });
 }
 
